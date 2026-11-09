@@ -42,7 +42,7 @@
     /* Layout */
     --sb-w: 256px;
     --sb-rail: 68px;
-    --tb-h: 60px;
+    --tb-h: 64px;
     /* Older module styles read these: solid white, no blur */
     --glass: #ffffff;
     --glass-strong: #ffffff;
@@ -52,7 +52,7 @@
     --glass-blur: none;
     --glass-shadow: 0 1px 2px rgba(16, 24, 40, .05);
     --glass-radius: 12px;
-    font-size: 15px;
+    font-size: 16px; /* base text size (was 15px; made bigger 9 Nov 2026) — every rem size follows it */
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; }
@@ -366,7 +366,7 @@ code { background: #eef1f6; padding: .05rem .3rem; border-radius: 4px; font-size
 @media (max-width: 600px) { .tt-week { grid-template-columns: 1fr; } }
 .tt-item { border-left: 3px solid var(--brand); padding: .35rem .5rem; margin-bottom: .5rem; background: #f6f9fd; border-radius: 0 6px 6px 0; font-size: .85rem; }
 .tt-time { display: block; font-size: .75rem; color: var(--muted); }
-.brand-logo { width: 36px; height: 36px; border-radius: 9px; object-fit: contain; background: #fff; }
+.brand-logo { width: 44px; height: 44px; border-radius: 9px; object-fit: contain; background: #fff; }
 
 /* Finance */
 .req-items input { min-width: 0; }
@@ -421,8 +421,8 @@ code { background: #eef1f6; padding: .05rem .3rem; border-radius: 4px; font-size
 @media (max-width: 700px) { .wiz-step { flex-wrap: wrap; } .wiz-actions { width: 100%; justify-content: flex-start; } }
 .chart { width: 100%; height: auto; display: block; overflow: visible; }
 .chart .grid { stroke: var(--line); stroke-width: 1; }
-.chart .axis { fill: var(--muted); font-size: 13px; }
-.chart .val { fill: var(--ink); font-size: 13px; font-weight: 600; }
+.chart .axis { fill: var(--muted); font-size: 14px; }
+.chart .val { fill: var(--ink); font-size: 14px; font-weight: 600; }
 .chart .bar { fill: var(--brand); }
 .chart .bar-soft { fill: #c9d6ea; }
 .chart .bar:hover, .chart .bar-soft:hover { opacity: .8; }
@@ -626,7 +626,7 @@ tr.sow-late td { background: var(--bad-soft); }
 .chart .mline.s-actual { stroke: var(--bx-teal, #0d9488); } .chart .mdot.s-actual { fill: var(--bx-teal, #0d9488); }
 .chart .mline.s-enrol { stroke: var(--bx-navy, #16324f); } .chart .mdot.s-enrol { fill: var(--bx-navy, #16324f); }
 .chart .mdot { stroke: #fff; stroke-width: 2; }
-.chart .plabel { font-size: 13px; font-weight: 700; fill: var(--ink); paint-order: stroke; stroke: #fff; stroke-width: 4px; }
+.chart .plabel { font-size: 14px; font-weight: 700; fill: var(--ink); paint-order: stroke; stroke: #fff; stroke-width: 4px; }
 
 /* ---- Confirmation pop-up ---- */
 dialog.cfm { border: 0; padding: 0; border-radius: 16px; width: min(460px, calc(100vw - 32px)); box-shadow: 0 24px 60px rgba(16,24,40,.28), 0 2px 6px rgba(16,24,40,.08); color: var(--ink); background: var(--card); }
@@ -1489,8 +1489,8 @@ a.an-kpi:hover { text-decoration: none; border-color: #b9c5e8; border-top-color:
 /* No side menu: the top bar carries the school logo and the apps launcher on every screen size */
 .shell { background: none !important; }
 
-.tb-brand { display: grid; place-items: center; flex: none; width: 40px; height: 40px; margin-right: .2rem; border-radius: 10px; overflow: hidden; }
-.tb-brand img { width: 36px; height: 36px; object-fit: contain; }
+.tb-brand { display: grid; place-items: center; flex: none; width: 48px; height: 48px; margin-right: .2rem; border-radius: 10px; overflow: hidden; }
+.tb-brand img { width: 44px; height: 44px; object-fit: contain; } /* school crest (was 36px) */
 .topbar .tb-apps { display: grid !important; }
 .tb-apps.is-here { background: var(--brand-soft); color: var(--brand); }
 .tb-launch { position: relative; }
@@ -1652,3 +1652,6 @@ input.app-panel-check, label.app-panel-open { display: none; }
     input.app-panel-check:checked ~ .app-panel-layout .app-panel { display: block !important; }
     input.app-panel-check:checked + label.app-panel-open { background: var(--brand-soft); color: var(--brand); }
 }
+
+/* Bigger text (9 Nov 2026): a form's own submit button in a narrow side card wraps instead of sticking out */
+form.form > .btn, form.form > button.btn { max-width: 100%; white-space: normal; height: auto; }
