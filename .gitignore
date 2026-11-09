@@ -1,0 +1,22 @@
+config/config.local.php
+storage/installed.lock
+storage/uploads/*
+!storage/uploads/.gitkeep
+storage/cron.lock
+documents/*.pdf
+documents/*.docx
+storage/cache/
+
+# Secrets and school records — never on GitHub
+storage/app.key
+storage/backups/
+storage/demo_backups/
+storage/demo_uploads/
+storage/*.log
+*.sql.gz
+# Working files that are not part of the app
+Claude outputs/
+_project-files/
+/*.jpg
+/*.png
+/*.zip

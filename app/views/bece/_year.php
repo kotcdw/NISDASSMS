@@ -1,0 +1,1 @@
+<?php if (count($years) > 1): ?><form method="get" action="<?= e(url(current_route())) ?>" class="list-pick" data-autosubmit><select name="year" aria-label="Academic year"><?php foreach ($years as $y): ?><option value="<?= (int) $y['id'] ?>"<?= selected($year['id'] ?? 0, $y['id']) ?>><?= e($y['name']) ?></option><?php endforeach; ?></select></form><?php endif; ?>

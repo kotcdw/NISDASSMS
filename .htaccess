@@ -1,0 +1,33 @@
+# NISDAS SMS — route everything except real files through index.php
+Options -Indexes
+DirectoryIndex index.php
+
+# Professional page for anything Apache itself refuses (protected folders), instead of the plain "Forbidden"
+ErrorDocument 403 "<!doctype html><html lang='en'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>Protected location</title><style>body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:#f5f7fb;color:#1d2433;display:flex;min-height:100vh;align-items:center;justify-content:center;padding:16px;box-sizing:border-box}.c{background:#fff;border:1px solid #e3e7ee;border-radius:18px;box-shadow:0 10px 30px rgba(16,24,40,.08);padding:36px 32px 26px;max-width:520px;text-align:center}.i{width:72px;height:72px;margin:0 auto 16px;border-radius:50%;background:#fde8e7;color:#b42318;display:flex;align-items:center;justify-content:center}small{display:block;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#667085}h1{margin:6px 0 10px;font-size:24px}p{margin:0 0 18px;line-height:1.5}a{display:inline-block;background:#1f4e8c;color:#fff;text-decoration:none;padding:10px 18px;border-radius:10px;font-weight:600}</style></head><body><div class='c'><div class='i'><svg width='36' height='36' viewBox='0 0 24 24'><rect x='4.5' y='10.5' width='15' height='10' rx='2.2' fill='none' stroke='currentColor' stroke-width='2'/><path d='M8 10.5V7.8a4 4 0 0 1 8 0v2.7' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round'/></svg></div><small>Error 403</small><h1>This location is protected</h1><p>School records, settings and system files cannot be opened directly from the web address bar. Please use the menus of the NISDAS School Management System.</p><a href='javascript:history.back()'>Go back</a></div></body></html>"
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # The Documents app lives at /documents. The school's own files kept in the documents folder are never
+    # served: a request for one shows the app's "protected" page instead of Apache's plain "Forbidden".
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule ^documents/ index.php?_blocked=1 [L]
+    RewriteRule ^documents/?$ index.php [QSA,L]
+
+    # Block direct web access to source, config, database and storage folders, the school's own project files,
+    # hidden files and data files
+    RewriteRule ^(app|bin|config|database|storage|_project-files)(/|$) index.php?_blocked=1 [L]
+    RewriteRule ^\.well-known/assetlinks\.json$ index.php [L]
+    RewriteRule (^|/)\. index.php?_blocked=1 [L]
+    RewriteRule \.(sql|md|lock|log)$ index.php?_blocked=1 [L]
+
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^ index.php [QSA,L]
+</IfModule>
+
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>

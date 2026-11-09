@@ -1,0 +1,181 @@
+/* NISDAS terminal report card — A4 portrait, one pupil per page */
+@page { size: A4 portrait; margin: 12mm; }
+* { box-sizing: border-box; }
+body { margin: 0; background: #e9edf3; font-family: "Segoe UI", system-ui, Roboto, Arial, sans-serif; color: #111827; font-size: 12.5px; line-height: 1.35; }
+.toolbar { position: sticky; top: 0; background: #173b6b; color: #dbe5f5; padding: .6rem 1rem; display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; z-index: 2; font-size: 13px; }
+.toolbar button { background: #c9a227; color: #173b6b; border: 0; border-radius: 6px; padding: .45rem .9rem; font-weight: 700; cursor: pointer; font: inherit; font-weight: 700; }
+.card-page { background: #fff; width: 210mm; min-height: 297mm; margin: 1rem auto; padding: 12mm; box-shadow: 0 2px 10px rgba(0,0,0,.12); page-break-after: always; break-after: page; }
+.card-page:last-child { page-break-after: auto; break-after: auto; }
+.rc-head { display: grid; grid-template-columns: 56px 1fr auto; gap: 12px; align-items: center; border-bottom: 3px double #173b6b; padding-bottom: 8px; margin-bottom: 10px; }
+.rc-school h1 { margin: 0; font-size: 20px; color: #173b6b; text-transform: uppercase; letter-spacing: .02em; }
+.rc-school p { margin: 1px 0 0; font-size: 11px; color: #4b5563; }
+.rc-school .motto { font-style: italic; }
+.rc-title { text-align: right; }
+.rc-title strong { display: block; font-size: 15px; letter-spacing: .08em; color: #173b6b; }
+.rc-title span { font-size: 12px; }
+table { width: 100%; border-collapse: collapse; margin-bottom: 10px; }
+th, td { border: 1px solid #9ca3af; padding: 4px 6px; vertical-align: middle; }
+.rc-info th { background: #eef2f8; text-align: left; font-weight: 600; width: 1%; white-space: nowrap; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.rc-scores th { background: #173b6b; color: #fff; font-weight: 600; font-size: 11.5px; text-align: center; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.rc-scores th small { color: #dbe5f5; font-weight: 400; }
+.rc-scores td { text-align: center; }
+.rc-scores .l { text-align: left; }
+.rc-scores tbody tr:nth-child(even) td { background: #f7f9fc; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.rc-scores tfoot td { background: #eef2f8; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+.rc-sign { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin: 26px 0 14px; font-size: 11px; color: #4b5563; text-align: center; }
+.rc-sign span { display: block; border-bottom: 1px solid #111827; height: 26px; margin-bottom: 3px; }
+.rc-key { font-size: 10px; color: #4b5563; border-top: 1px solid #d1d5db; padding-top: 6px; display: flex; flex-wrap: wrap; gap: 4px 12px; }
+/* class time table print */
+.tt-print th { background: #173b6b; color: #fff; font-size: 12px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.tt-print td { text-align: center; font-size: 11.5px; height: 44px; }
+.tt-print td:first-child { width: 90px; background: #eef2f8; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.tt-print tr.fixed td { height: auto; background: #f3f4f6; color: #4b5563; font-weight: 600; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.rc-logo-img { width: 56px; height: 56px; object-fit: contain; }
+@media print {
+    body { background: #fff; }
+    .no-print { display: none !important; }
+    .card-page { margin: 0; box-shadow: none; width: auto; min-height: auto; padding: 0; }
+}
+@media screen and (max-width: 820px) {
+    .card-page { width: auto; min-height: 0; margin: .5rem; padding: 12px; }
+    .rc-head { grid-template-columns: 44px 1fr; }
+    .rc-title { grid-column: 1 / -1; text-align: left; }
+    .rc-info, .rc-scores { font-size: 11px; display: block; overflow-x: auto; }
+}
+/* fee bills, receipts and statements */
+.doc-page { min-height: auto; }
+.doc-page.receipt { max-width: 160mm; }
+.doc-amount { font-size: 16px; padding: 10px 12px; margin: 6px 0 10px; border: 2px solid #173b6b; border-radius: 6px; text-align: center; }
+.doc-amount strong { font-size: 20px; color: #173b6b; }
+.doc-note { font-size: 12px; border: 1px dashed #9ca3af; border-radius: 6px; padding: 8px 12px; }
+.doc-note ul { margin: 4px 0 0; padding-left: 18px; }
+.doc-void { color: #b91c1c; font-weight: 700; border: 2px solid #b91c1c; padding: 6px 10px; text-align: center; }
+.cash-table td, .cash-table th { font-size: 11.5px; }
+/* sign-in slips: 2 per row, cut along the dashed lines */
+.slips { display: grid; grid-template-columns: 1fr 1fr; gap: 0; background: #fff; max-width: 210mm; margin: 1rem auto; }
+.slip { border: 1px dashed #9ca3af; padding: 10px 12px; font-size: 12px; break-inside: avoid; }
+.slip .slip-name { font-size: 15px; font-weight: 700; color: #173b6b; }
+.slip table { margin: 6px 0; } .slip th { text-align: left; width: 38%; background: #eef2f8; }
+.slip code { font-size: 14px; font-weight: 700; letter-spacing: .04em; }
+
+/* School reports (printed) */
+.print-tables h2 { font-size: 1rem; margin: 1rem 0 .4rem; }
+.print-tables table { width: 100%; border-collapse: collapse; font-size: .78rem; margin-bottom: .6rem; }
+.print-tables th, .print-tables td { border: 1px solid #c8ced8; padding: 3px 6px; text-align: left; }
+.print-tables th { background: #f1f4f8; }
+.print-tables .rpt-num { text-align: right; }
+.print-tables .card { margin-bottom: .6rem; }
+.print-tables .hint, .print-tables .muted { color: #555; font-size: .75rem; }
+.print-tables .badge { border: 1px solid #c8ced8; border-radius: 99px; padding: 0 .4rem; font-size: .72rem; }
+
+/* ID cards: 8 per A4 (85.6 × 54 mm, credit-card size) */
+.idc-sheet { display: grid; grid-template-columns: repeat(2, 85.6mm); gap: 6mm; justify-content: center; padding: 8mm; background: #fff; width: 210mm; margin: 1rem auto; }
+.idc { width: 85.6mm; height: 54mm; border: 1px solid #9aa3b2; border-radius: 3mm; overflow: hidden; display: flex; flex-direction: column; font-size: 8pt; break-inside: avoid; page-break-inside: avoid; }
+.idc-head { background: #1f4e8c; color: #fff; display: flex; gap: 2mm; align-items: center; padding: 1.5mm 2.5mm; }
+.idc-head img { width: 8mm; height: 8mm; border-radius: 1.5mm; background: #c9a227; color: #1f4e8c; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; object-fit: contain; }
+.idc-head strong { display: block; font-size: 8pt; letter-spacing: .02em; }
+.idc-head small { font-size: 6pt; letter-spacing: .1em; opacity: .85; }
+.idc-body { display: flex; gap: 2.5mm; padding: 2mm 2.5mm; flex: 1; }
+.idc-photo { width: 22mm; height: 27mm; border: 1px solid #c8ced8; display: flex; align-items: center; justify-content: center; color: #9aa3b2; overflow: hidden; flex-shrink: 0; }
+.idc-photo img { width: 100%; height: 100%; object-fit: cover; }
+.idc-info { line-height: 1.45; }
+.idc-info span { color: #667085; display: inline-block; min-width: 13mm; }
+.idc-name { font-weight: 700; font-size: 9pt; margin-bottom: .6mm; }
+.idc-foot { background: #f1f4f8; font-size: 6pt; padding: 1mm 2.5mm; color: #3d4659; }
+@media print { .idc-sheet { margin: 0; padding: 0; width: auto; } }
+
+/* Monthly register */
+.landscape { width: 297mm; min-height: 210mm; }
+.reg-grid th, .reg-grid td { font-size: .68rem; padding: 2px 3px; text-align: center; }
+.reg-grid td.none { background: #eef1f6; }
+.reg-grid td.abs { color: #b42318; font-weight: 700; }
+@media print { @page { size: auto; } .landscape { width: auto; } }
+.letter p { line-height: 1.7; font-size: .95rem; }
+.reg-grid td:first-child { text-align: left; }
+
+/* Terminal report in the school's own format (Sprint 14): black on white, like the printed form */
+.nr-page { color: #000; font-family: Calibri, "Segoe UI", Arial, sans-serif; font-size: 12.5px; }
+.nr-head { display: grid; grid-template-columns: 78px 1fr 78px; align-items: center; margin-bottom: 14px; }
+.nr-logo { width: 74px; height: 74px; object-fit: contain; }
+
+.nr-titles { text-align: center; }
+.nr-titles h1 { margin: 0; font-size: 24px; font-weight: 800; letter-spacing: .01em; }
+.nr-titles h2 { margin: 2px 0 0; font-size: 19px; font-weight: 700; }
+.nr-line { display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: baseline; margin: 8px 0 10px; font-size: 11.5px; }
+.nr-line.nr-tight { margin: 2px 0 8px; }
+.nr-grow { flex: 1 1 260px; }
+.nr-right { margin-left: auto; }
+.nr-fill { display: inline-block; min-width: 54px; border-bottom: 1px solid #000; padding: 0 6px 1px; font-weight: 700; }
+.nr-grow .nr-fill { min-width: 70%; }
+.nr-page table { border-collapse: collapse; width: 100%; }
+.nr-page th, .nr-page td { border: 1px solid #000; padding: 4px 6px; }
+.nr-scores th { font-weight: 700; font-size: 11.5px; text-align: center; background: #fff; color: #000; }
+.nr-scores td { text-align: center; font-weight: 700; font-size: 12px; }
+.nr-scores .l { text-align: left; }
+.nr-scores tbody td { height: 26px; }
+.nr-scores tfoot td { height: 26px; }
+.nr-caption { text-align: center; margin: 10px 0 2px; font-size: 14px; font-weight: 800; }
+.nr-grid { margin-bottom: 8px; }
+.nr-grid caption { font-weight: 700; font-size: 11px; padding: 4px 0 2px; }
+.nr-grid th { font-size: 10.5px; text-align: left; width: 1%; white-space: nowrap; }
+.nr-grid td { text-align: center; font-size: 10.5px; padding: 2px 3px; }
+.nr-grid .nr-small { font-size: 9px; }
+.nr-box { border: 1px solid #000; padding: 8px 10px 4px; margin-top: 10px; }
+.nr-comment { border-bottom: 1px solid #000; min-height: 38px; padding: 6px 0 4px; line-height: 1.7; }
+.nr-label { font-weight: 700; font-size: 11.5px; }
+.nr-sign { margin: 28px 0 12px auto; width: 46%; font-size: 10.5px; font-weight: 700; }
+.nr-sign span { display: block; border-bottom: 1px solid #000; height: 22px; margin-bottom: 3px; }
+.nr-fees { font-size: 10.5px; margin-top: 6px; }
+.nr-big { text-align: center; font-size: 22px; font-weight: 900; margin: 28px 0 10px; letter-spacing: .01em; }
+.nr-traits th { text-align: left; width: 46%; font-weight: 700; font-size: 12px; }
+.nr-traits td { font-size: 12.5px; height: 27px; }
+.nr-sign2 { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; margin-top: 150px; font-size: 11.5px; font-weight: 700; }
+.nr-sign2 div { text-align: center; }
+/* JHS cards carry an extra grid (NaCCA levels): tighten so page 1 still fits one A4 sheet */
+.nr-compact .nr-head { margin-bottom: 8px; }
+.nr-compact .nr-line { margin: 5px 0 7px; }
+.nr-compact .nr-scores tbody td, .nr-compact .nr-scores tfoot td { height: 22px; padding: 2px 6px; }
+.nr-compact .nr-caption { margin-top: 6px; }
+.nr-compact .nr-comment { min-height: 30px; padding: 4px 0 3px; }
+.nr-compact .nr-sign { margin: 18px 0 8px auto; }
+.nr-sign2 span { display: block; border-bottom: 1px solid #000; height: 34px; margin-bottom: 3px; }
+@media screen and (max-width: 820px) {
+    .nr-head { grid-template-columns: 52px 1fr; }
+    .nr-logo { width: 50px; height: 50px; }
+    .nr-titles h1 { font-size: 17px; } .nr-titles h2 { font-size: 14px; }
+    .nr-scores, .nr-grid { display: block; overflow-x: auto; }
+    .nr-sign { width: 100%; } .nr-sign2 { gap: 24px; margin-top: 60px; }
+}
+
+/* Money documents printed twice (Parent's copy + School copy) */
+.doc-copy-band { display: flex; justify-content: space-between; gap: 8px; font-size: 10px; letter-spacing: .06em; color: #173b6b; border: 1px solid #173b6b; border-radius: 4px; padding: 3px 8px; margin-bottom: 8px; }
+.doc-copy-band .is-copy { color: #b91c1c; font-weight: 700; letter-spacing: 0; }
+.doc-verify { display: flex; align-items: center; gap: 10px; margin-top: 8px; font-size: 9.5px; color: #4b5563; }
+.doc-qr { width: 56px; height: 56px; flex: 0 0 56px; }
+.doc-qr svg { width: 56px; height: 56px; }
+.doc-words { font-size: 12px; font-style: italic; text-align: center; margin: -4px 0 8px; }
+.doc-sheet.halves { background: #fff; width: 210mm; margin: 1rem auto; box-shadow: 0 2px 10px rgba(0,0,0,.12); }
+.doc-sheet.halves .doc-half { width: auto; min-height: 0; margin: 0; box-shadow: none; padding: 9mm 12mm 7mm; page-break-after: avoid; break-after: avoid; font-size: 12px; }
+.doc-half .rc-head { grid-template-columns: 44px 1fr auto; gap: 10px; padding-bottom: 5px; margin-bottom: 6px; }
+.doc-half .rc-head h1 { font-size: 16px; }
+.doc-half .rc-head p { font-size: 10px; margin: 0; }
+.doc-half .rc-logo-img { width: 44px; height: 44px; }
+.doc-half table { font-size: 11px; }
+.doc-half .rc-info th, .doc-half .rc-info td, .doc-half .rc-scores th, .doc-half .rc-scores td { padding: 3px 6px; }
+.doc-half .doc-amount { font-size: 14px; padding: 6px 10px; margin: 6px 0; }
+.doc-half .doc-amount strong { font-size: 17px; }
+.doc-half .rc-sign { margin: 16px 0 6px; gap: 16px; }
+.doc-half .rc-sign span { height: 18px; }
+.doc-half .rc-key { font-size: 9px; padding-top: 4px; }
+.doc-cut { border-top: 1.5px dashed #9ca3af; margin: 0 6mm; position: relative; height: 0; }
+.doc-cut span { position: absolute; left: 50%; top: -8px; transform: translateX(-50%); background: #fff; padding: 0 8px; font-size: 10px; color: #6b7280; }
+@media print {
+    .doc-sheet.halves { width: auto; margin: 0; box-shadow: none; page-break-after: always; break-after: page; }
+    .doc-sheet.halves:last-child { page-break-after: auto; break-after: auto; }
+    .doc-sheet.halves .doc-half { height: 132mm; overflow: hidden; padding: 2mm 1mm; }
+    .doc-cut { margin: 2mm 0; }
+}
+
+/* Phones: Print button easy to tap */
+@media (max-width: 600px) { .toolbar button { min-height: 40px; } }
