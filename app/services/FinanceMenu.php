@@ -11,8 +11,8 @@ final class FinanceMenu
         'Overview' => [
             '' => [
                 ['finance/dashboard', 'Finance dashboard', 'Money held, fees, budget and big payments at a glance', 'finance.view'],
-                ['fees/collections', 'Money collected', 'By channel: cash desk, MoMo, bank, online', 'fees.view'],
-                ['fees/families', 'Families', 'Guardians with all their children on one account', 'fees.view'],
+                ['finance/reports', 'Reports studio', 'Balance sheet, income & spending, cash flow, trial balance', 'finance.view'],
+                ['finance/close', 'Month-end', 'Close the month; board pack', 'finance.view'],
             ],
         ],
         'Fees' => [
@@ -20,7 +20,10 @@ final class FinanceMenu
                 ['fees', 'Fees overview', 'This term at a glance; find a student', 'fees.view'],
                 ['fees/invoices', 'Bills', 'Every bill this term', 'fees.view'],
                 ['fees/debtors', 'Who owes', 'Debtors, how late, send reminders', 'fees.view'],
+                ['fees/collections', 'Money collected', 'By channel: cash desk, MoMo, bank, online', 'fees.view'],
                 ['fees/online', 'Online payments', 'Paystack / Hubtel settlements', 'fees.view'],
+                ['fees/refunds', 'Refunds & credit notes', 'Overpayments and adjustments', 'fees.view'],
+                ['fees/families', 'Families', 'Guardians with all their children on one account', 'fees.view'],
             ],
             'Start of term' => [
                 ['fees/generate', 'Make term bills', 'Bill selected classes in one step', 'fees.manage'],
@@ -36,13 +39,14 @@ final class FinanceMenu
                 ['finance/statement', 'Money in & out by category', 'Totals for each category over a period', 'finance.view'],
                 ['fees/daily', 'Daily cash', "Today's counter: cash, cheques, MoMo", 'fees.view'],
                 ['petty-cash', 'Petty cash', 'Small spending with receipts', 'finance.view'],
-                ['fees/refunds', 'Refunds & credit notes', 'Overpayments and adjustments', 'fees.view'],
             ],
             'Control' => [
                 ['finance/reconcile', 'Check bank statement', 'Reconcile the bank and MoMo accounts', 'finance.view'],
                 ['finance/budget', 'Budget', 'Planned against spent', 'finance.view'],
             ],
-            'Purchasing' => [
+        ],
+        'Purchasing' => [
+            '' => [
                 ['requisitions', 'Requests', 'Requests to spend money and their approval', 'requisitions.create'],
                 ['purchasing', 'Orders', 'Purchase orders to suppliers', 'finance.view|purchasing.order|purchasing.receive'],
                 ['purchasing/received', 'Goods received', 'What arrived against each order', 'finance.view|purchasing.receive'],
@@ -52,19 +56,14 @@ final class FinanceMenu
             ],
         ],
         'Payroll' => [
-            'Pay' => [
+            '' => [
                 ['payroll', 'Payroll engine', 'Monthly pay runs, payslips and SSNIT/PAYE schedules', 'payroll.view'],
                 ['payroll/staff', 'Staff pay records', 'Salary, allowances and bank details', 'payroll.view'],
                 ['payroll/annual', 'Year summary', 'Pay and deductions for the whole year', 'payroll.view'],
             ],
         ],
-        'Reports' => [
-            '' => [
-                ['finance/reports', 'Reports studio', 'Balance sheet, income & spending, cash flow, trial balance', 'finance.view'],
-                ['fixed-assets', 'Fixed assets', 'Buses, buildings, computers and depreciation', 'finance.view'],
-                ['finance/close', 'Month-end', 'Close the month; board pack', 'finance.view'],
-            ],
-            'The books (ledger)' => [
+        'Ledger & assets' => [
+            'The books' => [
                 ['ledger', 'Summary', 'Chart of accounts and double entry', 'finance.view'],
                 ['ledger/accounts', 'Accounts', 'Every ledger account and its balance', 'finance.view'],
                 ['ledger/journal', 'Every entry', 'All double entries, newest first', 'finance.view'],
@@ -72,17 +71,20 @@ final class FinanceMenu
                 ['ledger/balance-sheet', 'Balance sheet', 'What the school owns and owes', 'finance.view'],
                 ['ledger/journals', 'Corrections (manual journals)', 'Correcting entries and their approval', 'finance.view'],
             ],
+            'Assets' => [
+                ['fixed-assets', 'Fixed assets', 'Buses, buildings, computers and depreciation', 'finance.view'],
+            ],
         ],
     ];
 
     /** Which group a page belongs to: the longest matching route prefix wins. */
     private const PREFIX = [
-        'finance/dashboard' => 'Overview', 'fees/collections' => 'Overview', 'fees/families' => 'Overview', 'fees/family' => 'Overview',
-        'fees' => 'Fees',
-        'finance' => 'Cash Book', 'fees/daily' => 'Cash Book', 'petty-cash' => 'Cash Book', 'fees/refunds' => 'Cash Book',
-        'requisitions' => 'Cash Book', 'purchasing' => 'Cash Book', 'suppliers' => 'Cash Book', 'transport/bill' => 'Fees',
+        'finance/dashboard' => 'Overview', 'finance/reports' => 'Overview', 'finance/close' => 'Overview', 'finance/board-pack' => 'Overview',
+        'fees' => 'Fees', 'fees/family' => 'Fees', 'transport/bill' => 'Fees',
+        'finance' => 'Cash Book', 'fees/daily' => 'Cash Book', 'petty-cash' => 'Cash Book',
+        'requisitions' => 'Purchasing', 'purchasing' => 'Purchasing', 'suppliers' => 'Purchasing',
         'payroll' => 'Payroll',
-        'finance/reports' => 'Reports', 'ledger' => 'Reports', 'fixed-assets' => 'Reports', 'finance/close' => 'Reports', 'finance/board-pack' => 'Reports',
+        'ledger' => 'Ledger & assets', 'fixed-assets' => 'Ledger & assets',
     ];
 
     /** The menu this person sees: group => [column title => [items]]. */

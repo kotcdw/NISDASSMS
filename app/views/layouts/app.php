@@ -82,22 +82,26 @@ if (count(AppMenu::paths($appPanel)) < 2) {
     [$appName, $appPanel] = [null, []];
 }
 if ($appPanel) {
-    // Page tabs that the panel already lists are not repeated above the page
+    // Page tabs never show as a second row above the page: the ones the panel already lists are dropped, and any
+    // others are added to the panel (under the open group) so every page stays one click away
     $apPaths = AppMenu::paths($appPanel);
     $apBase = (string) parse_url(url(''), PHP_URL_PATH);
-    $apCovered = true;
-    foreach ($pageNav as [$href]) {
+    $apExtra = [];
+    foreach ($pageNav as [$href, $label]) {
         $hp = (string) parse_url($href, PHP_URL_PATH);
         $hr = trim(str_starts_with($hp, $apBase) ? substr($hp, strlen($apBase)) : $hp, '/');
-        if (!in_array($hr, $apPaths, true)) {
-            $apCovered = false;
-            break;
+        if ($hr !== '' && !in_array($hr, $apPaths, true)) {
+            $q = (string) parse_url($href, PHP_URL_QUERY);
+            $apExtra[$hr] = [$hr . ($q !== '' ? '?' . $q : ''), $label, '', 'auth'];
         }
     }
-    if ($apCovered) {
-        $pageNav = [];
-    }
+    $pageNav = [];
     [$apModule, $apLink] = AppMenu::here($appPanel, $route);
+    if ($apExtra) {
+        $apGroup0 = $apModule ?? array_key_first($appPanel);
+        $appPanel[$apGroup0]['More pages'] = array_values($apExtra);
+        [$apModule, $apLink] = AppMenu::here($appPanel, $route);
+    }
 }
 $adminNow = '';
 foreach ($adminItems as [, , $adminR]) { // the Administration link that is "here" (longest matching route)
@@ -283,7 +287,7 @@ $staffSign = function (string $cls) use ($myIn): void { ?>
         $apHead = '';
         if ($appPanel) {
             if (($hs = strpos($content, '<div class="page-head')) !== false && $hs < 4000
-                && preg_match_all('#<div\\b#', substr($content, 0, $hs)) === preg_match_all('#</div\\b#', substr($content, 0, $hs))) { // only a top-level title row
+                && preg_match_all('#<(div|section|article|form)\\b#', substr($content, 0, $hs)) === preg_match_all('#</(div|section|article|form)\\b#', substr($content, 0, $hs))) { // only a top-level title row (not inside a card or form)
                 $depth = 0;
                 $pos = $hs;
                 while (preg_match('#<(/?)div\b#', $content, $tm, PREG_OFFSET_CAPTURE, $pos)) {
