@@ -42,7 +42,7 @@
     /* Layout */
     --sb-w: 256px;
     --sb-rail: 68px;
-    --tb-h: 64px;
+    --tb-h: 80px;
     /* Older module styles read these: solid white, no blur */
     --glass: #ffffff;
     --glass-strong: #ffffff;
@@ -366,7 +366,7 @@ code { background: #eef1f6; padding: .05rem .3rem; border-radius: 4px; font-size
 @media (max-width: 600px) { .tt-week { grid-template-columns: 1fr; } }
 .tt-item { border-left: 3px solid var(--brand); padding: .35rem .5rem; margin-bottom: .5rem; background: #f6f9fd; border-radius: 0 6px 6px 0; font-size: .85rem; }
 .tt-time { display: block; font-size: .75rem; color: var(--muted); }
-.brand-logo { width: 44px; height: 44px; border-radius: 9px; object-fit: contain; background: #fff; }
+.brand-logo { width: 64px; height: 64px; border-radius: 9px; object-fit: contain; background: #fff; }
 
 /* Finance */
 .req-items input { min-width: 0; }
@@ -1489,8 +1489,8 @@ a.an-kpi:hover { text-decoration: none; border-color: #b9c5e8; border-top-color:
 /* No side menu: the top bar carries the school logo and the apps launcher on every screen size */
 .shell { background: none !important; }
 
-.tb-brand { display: grid; place-items: center; flex: none; width: 48px; height: 48px; margin-right: .2rem; border-radius: 10px; overflow: hidden; }
-.tb-brand img { width: 44px; height: 44px; object-fit: contain; } /* school crest (was 36px) */
+.tb-brand { display: grid; place-items: center; flex: none; width: 68px; height: 68px; margin-right: .2rem; border-radius: 10px; overflow: hidden; }
+.tb-brand img { width: 64px; height: 64px; object-fit: contain; } /* school crest (36px → 44px → 56px → 64px, 9 Nov 2026) */
 .topbar .tb-apps { display: grid !important; }
 .tb-apps.is-here { background: var(--brand-soft); color: var(--brand); }
 .tb-launch { position: relative; }

@@ -136,6 +136,9 @@ $crumb = $navActive !== null ? ($activeGroup !== '' ? $activeGroup : '') : '';
 if ($crumb === '' && $anArea !== null && !in_array($anArea, ['Parent portal', 'My learning'], true)) {
     $crumb = $anArea; // pages reached from area tabs (Lesson notes, Ledger, Petty cash…) still show their area
 }
+if ($appPanel && $appName !== null) {
+    $crumb = $appName; // the label above the page title names the same app as the left panel
+}
 $pageTitle = (string) ($title ?? '');
 
 $unread = (int) db()->value('SELECT COUNT(*) FROM inapp_notifications WHERE user_id = ? AND read_at IS NULL', [$user['id']]);
