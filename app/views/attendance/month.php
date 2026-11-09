@@ -5,7 +5,7 @@
 </div>
 <div class="card-page doc-page landscape">
     <?php require dirname(__DIR__) . '/fees/_doc_head.php'; ?>
-    <p style="font-size:.8rem">Class teacher: <?= e($class['teacher'] ?? '—') ?> · P present · L late · A absent · E excused · S sick · grey = no register taken</p>
+    <p style="font-size:.825rem">Class teacher: <?= e($class['teacher'] ?? '—') ?> · P present · L late · A absent · E excused · S sick · grey = no register taken</p>
     <table class="lines reg-grid" style="width:100%">
         <tr><th style="text-align:left">Student</th><?php foreach ($days as $d): ?><th><?= date('j', strtotime($d)) ?><br><small><?= substr(date('D', strtotime($d)), 0, 2) ?></small></th><?php endforeach; ?><th>P</th><th>A</th><th>%</th></tr>
         <?php foreach ($pupils as $p): $pp = 0; $aa = 0; $nn = 0; ?>

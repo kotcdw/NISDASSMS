@@ -162,8 +162,10 @@ class UserController extends Controller
         if (($_POST['pw_mode'] ?? 'auto') !== 'typed') {
             return $this->tempPassword();
         }
-        $errors = $typed === '' ? ['Type the temporary password, or choose "Make one for me".']
-            : PasswordPolicy::check($typed, ['name' => $person['name'] ?? '', 'email' => $person['email'] ?? '', 'role' => $person['role'] ?? '']);
+        // Temporary passwords only need 6 characters (school's choice, 9 Nov 2026): the person must replace it at the
+        // next sign-in, and their own new password then follows the full password rules.
+        $errors = $typed === '' ? ['Type the temporary password, or choose "Make a temporary password for me".']
+            : (mb_strlen($typed) < 6 ? ['Use at least 6 characters.'] : (mb_strlen($typed) > 200 ? ['Use at most 200 characters.'] : []));
         if ($errors) {
             with_old($keep + ['pw_mode' => 'typed'], ['temp_password' => implode(' ', $errors)]);
             flash('error', 'That temporary password cannot be used: ' . implode(' ', $errors));

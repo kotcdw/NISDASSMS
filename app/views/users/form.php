@@ -25,7 +25,7 @@
                 <label class="check"><input type="radio" name="pw_mode" value="auto"<?= $pwMode !== 'typed' ? ' checked' : '' ?>> Make a temporary password for me <small class="muted">(shown once after saving)</small></label>
                 <label class="check"><input type="radio" name="pw_mode" value="typed"<?= $pwMode === 'typed' ? ' checked' : '' ?>> I will type a temporary password</label>
                 <label class="pw-typed">Temporary password <input name="temp_password" type="text" autocomplete="new-password" spellcheck="false" maxlength="200"><?= field_error('temp_password') ?>
-                    <small class="hint">At least <?= (int) PasswordPolicy::settings()['min_staff'] ?> characters, letters with a number or symbol, not their name. They must change it at their first sign-in.</small></label>
+                    <small class="hint">At least 6 characters. They must change it at their first sign-in.</small></label>
             </fieldset>
         <?php endif; ?>
         <button class="btn btn-primary" type="submit">Save</button>
@@ -40,7 +40,7 @@
         <label class="check"><input type="radio" name="pw_mode" value="auto"<?= $pwMode !== 'typed' ? ' checked' : '' ?>> Make a temporary password for me <small class="muted">(shown once)</small></label>
         <label class="check"><input type="radio" name="pw_mode" value="typed"<?= $pwMode === 'typed' ? ' checked' : '' ?>> I will type a temporary password</label>
         <label class="pw-typed">Temporary password <input name="temp_password" type="text" autocomplete="new-password" spellcheck="false" maxlength="200"><?= field_error('temp_password') ?>
-            <small class="hint">At least <?= (int) PasswordPolicy::settings()['min_staff'] ?> characters, letters with a number or symbol, not their name.</small></label>
+            <small class="hint">At least 6 characters. They must change it at their next sign-in.</small></label>
         <button class="btn" type="submit">Set temporary password</button>
     </form>
 </div>

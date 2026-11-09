@@ -18,8 +18,8 @@ class PupilDocsController extends Controller
             $this->denied();
         }
         if (!$class) {
-            flash('error', 'Choose a class first, then press "Class list".');
-            redirect('pupils');
+            $this->pickClass('class-list'); // opened from the menu: let them choose the class here
+            return;
         }
         $this->view('pupils/class_list', ['title' => 'Class list — ' . $class['name'], 'class' => $class, 'pupils' => $this->pupils($classId), 'blank' => (int) ($_GET['cols'] ?? 0)], 'layouts/print');
     }
@@ -31,10 +31,14 @@ class PupilDocsController extends Controller
         if (($classId && !Auth::classInScope($classId)) || ($pid && !Auth::pupilInScope($pid))) {
             $this->denied();
         }
-        $pupils = $pid ? array_filter($this->pupils(null), fn($p) => (int) $p['id'] === $pid) : ($classId ? $this->pupils($classId) : []);
+        if (!$pid && !$classId) {
+            $this->pickClass('id-cards'); // opened from the menu: let them choose the class here
+            return;
+        }
+        $pupils = $pid ? array_filter($this->pupils(null), fn($p) => (int) $p['id'] === $pid) : $this->pupils($classId);
         if (!$pupils) {
-            flash('error', 'Choose a class first, then press "ID cards".');
-            redirect('pupils');
+            flash('error', 'There are no active students in that class yet.');
+            redirect('pupils/id-cards');
         }
         $this->view('pupils/id_cards', ['title' => 'Student ID cards', 'pupils' => array_values($pupils), 'year' => current_year()], 'layouts/print');
     }
@@ -108,6 +112,24 @@ class PupilDocsController extends Controller
              ORDER BY c.name, p.last_name, p.first_name',
             $classId ? [$yid, $classId] : [$yid]
         );
+    }
+
+    /** Class lists / ID cards opened without a class: show the classes this person may print for. */
+    private function pickClass(string $kind): void
+    {
+        $yid = current_year()['id'] ?? 0;
+        $classes = array_values(array_filter(db()->all(
+            "SELECT c.id, c.name, u.name AS teacher,
+                    (SELECT COUNT(*) FROM enrolments e JOIN pupils p ON p.id = e.pupil_id
+                     WHERE e.class_id = c.id AND e.academic_year_id = ? AND e.status = 'active' AND p.status = 'active' AND p.deleted_at IS NULL) AS students
+             FROM classes c JOIN levels l ON l.id = c.level_id LEFT JOIN users u ON u.id = c.class_teacher_id
+             WHERE c.is_active = 1 ORDER BY l.sort_order, c.name",
+            [$yid]
+        ), fn($c) => Auth::classInScope((int) $c['id'])));
+        $this->view('pupils/pick_class', [
+            'title' => $kind === 'id-cards' ? 'ID cards' : 'Class lists',
+            'kind' => $kind, 'classes' => $classes,
+        ]);
     }
 
     private function denied(): void

@@ -7,7 +7,7 @@
 
 <div>
     <div class="finance-overview-content">
-        <div class="card" style="padding:0">
+        <div class="card cashbook-accounts" style="padding:0">
             <h2 style="padding:1rem 1rem 0">Accounts</h2>
             <div class="table-wrap"><table>
                 <tr><th>Account</th><th>Type</th><th style="text-align:right">Balance</th></tr>

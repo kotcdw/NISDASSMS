@@ -345,7 +345,7 @@ $staffSign = function (string $cls) use ($myIn): void { ?>
                     </details>
                     <?php endforeach; ?>
                 </aside>
-                <div class="finance-overview-content app-panel-content"><?= $content ?></div>
+                <div class="app-panel-content"><?= $content ?></div>
             </div>
             <?php else: ?>
             <?= $content ?>
