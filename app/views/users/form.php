@@ -19,13 +19,32 @@
             <label><input type="checkbox" name="is_active" value="1"<?= checked($u['is_active']) ?>> Account active</label>
             <?php if (Security::ready()): ?><label>Reason if switched off <input name="locked_reason" maxlength="255" value="<?= e($u['locked_reason'] ?? '') ?>" placeholder="e.g. Left the school, on leave"></label><?php endif; ?>
             
-        <?php else: ?>
-            
+        <?php else: $pwMode = old('pw_mode', 'auto'); ?>
+            <fieldset class="pw-choice">
+                <legend>Sign-in password</legend>
+                <label class="check"><input type="radio" name="pw_mode" value="auto"<?= $pwMode !== 'typed' ? ' checked' : '' ?>> Make a temporary password for me <small class="muted">(shown once after saving)</small></label>
+                <label class="check"><input type="radio" name="pw_mode" value="typed"<?= $pwMode === 'typed' ? ' checked' : '' ?>> I will type a temporary password</label>
+                <label class="pw-typed">Temporary password <input name="temp_password" type="text" autocomplete="new-password" spellcheck="false" maxlength="200"><?= field_error('temp_password') ?>
+                    <small class="hint">At least <?= (int) PasswordPolicy::settings()['min_staff'] ?> characters, letters with a number or symbol, not their name. They must change it at their first sign-in.</small></label>
+            </fieldset>
         <?php endif; ?>
         <button class="btn btn-primary" type="submit">Save</button>
         <a class="btn btn-ghost" href="<?= e(url('users')) ?>">Cancel</a>
     </form>
 </div>
+<?php if ($user): ?>
+<div class="card">
+    <h2>Password</h2>
+    <form method="post" action="<?= e(url('users/' . $u['id'] . '/reset')) ?>" class="form" data-confirm="Give <?= e($u['name']) ?> a new temporary password? They will be signed out of every device and must choose their own password at the next sign-in.">
+        <?= csrf_field() ?><input type="hidden" name="back" value="edit"><?php $pwMode = old('pw_mode', 'auto'); ?>
+        <label class="check"><input type="radio" name="pw_mode" value="auto"<?= $pwMode !== 'typed' ? ' checked' : '' ?>> Make a temporary password for me <small class="muted">(shown once)</small></label>
+        <label class="check"><input type="radio" name="pw_mode" value="typed"<?= $pwMode === 'typed' ? ' checked' : '' ?>> I will type a temporary password</label>
+        <label class="pw-typed">Temporary password <input name="temp_password" type="text" autocomplete="new-password" spellcheck="false" maxlength="200"><?= field_error('temp_password') ?>
+            <small class="hint">At least <?= (int) PasswordPolicy::settings()['min_staff'] ?> characters, letters with a number or symbol, not their name.</small></label>
+        <button class="btn" type="submit">Set temporary password</button>
+    </form>
+</div>
+<?php endif; ?>
 <?php if ($user && Security::ready()): ?>
 <div class="card">
     <h2>Security</h2>

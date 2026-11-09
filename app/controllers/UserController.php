@@ -37,13 +37,15 @@ class UserController extends Controller
         $this->guardSuper(null, (string) $in['role']);
         $this->validate($in, $this->rules(0), 'users/create');
         $in += $this->accessUntil();
-        $temp = $this->tempPassword();
+        // The admin may type the temporary password, or let the system make one
+        $temp = $this->chosenTemp($in, 'users/create', $in);
         $id = db()->insert('users', $in + [
             'password_hash'        => password_hash($temp, PASSWORD_DEFAULT),
             'must_change_password' => 1,
         ]);
         audit('user_created', 'users', $id, ['email' => $in['email'], 'role' => $in['role']]);
         flash('success', "Account created. Temporary password for {$in['email']}: $temp — share it privately; they must change it at first sign-in.");
+        $this->forgetTyped();
         redirect('users');
     }
 
@@ -91,13 +93,15 @@ class UserController extends Controller
     {
         $user = db()->one('SELECT * FROM users WHERE id = ?', [$id]) ?? $this->notFound();
         $this->guardSuper($user);
-        $temp = $this->tempPassword();
+        $back = (string) ($_POST['back'] ?? '') === 'edit' ? "users/$id/edit" : 'users';
+        $temp = $this->chosenTemp($user, $back);
         PasswordPolicy::set($id, $temp, true);
         db()->run('DELETE FROM login_attempts WHERE identifier = ?', [$user['email']]);
         Security::revokeAll($id, 'password_reset');
         audit('password_reset', 'users', $id);
-        flash('success', "Password reset. Temporary password for {$user['email']}: $temp");
-        redirect('users');
+        flash('success', "Password reset. Temporary password for {$user['email']}: $temp — share it privately; they must change it at their next sign-in.");
+        $this->forgetTyped();
+        redirect($back);
     }
 
     public function signOutEverywhere(int $id): void
@@ -146,6 +150,32 @@ class UserController extends Controller
             'phone' => 'phone',
             'role'  => 'required|in:' . implode(',', array_keys(Auth::roles())),
         ];
+    }
+
+    /**
+     * The temporary password for a new account or a reset: the one the admin typed (checked against the
+     * password rules), or one made by the system. The person must change it at the next sign-in either way.
+     */
+    private function chosenTemp(array $person, string $backRoute, array $keep = []): string
+    {
+        $typed = (string) ($_POST['temp_password'] ?? '');
+        if (($_POST['pw_mode'] ?? 'auto') !== 'typed') {
+            return $this->tempPassword();
+        }
+        $errors = $typed === '' ? ['Type the temporary password, or choose "Make one for me".']
+            : PasswordPolicy::check($typed, ['name' => $person['name'] ?? '', 'email' => $person['email'] ?? '', 'role' => $person['role'] ?? '']);
+        if ($errors) {
+            with_old($keep + ['pw_mode' => 'typed'], ['temp_password' => implode(' ', $errors)]);
+            flash('error', 'That temporary password cannot be used: ' . implode(' ', $errors));
+            redirect($backRoute);
+        }
+        return $typed;
+    }
+
+    /** Never keep a typed password in the session (it is only shown once in the message). */
+    private function forgetTyped(): void
+    {
+        unset($_POST['temp_password']);
     }
 
     private function tempPassword(): string

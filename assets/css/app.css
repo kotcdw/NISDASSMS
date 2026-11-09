@@ -1655,3 +1655,10 @@ input.app-panel-check, label.app-panel-open { display: none; }
 
 /* Bigger text (9 Nov 2026): a form's own submit button in a narrow side card wraps instead of sticking out */
 form.form > .btn, form.form > button.btn { max-width: 100%; white-space: normal; height: auto; }
+
+/* Users: choose or type a temporary password (9 Nov 2026) */
+.pw-choice { border: 1px solid var(--line); border-radius: 10px; padding: .6rem .9rem .2rem; margin: 0 0 1rem; }
+.pw-choice legend { font-weight: 650; font-size: .9rem; padding: 0 .3rem; }
+.form label.check { display: flex; align-items: center; gap: .5rem; font-weight: 500; margin-bottom: .55rem; }
+.form label.check input { width: auto; min-height: 0; margin: 0; }
+form:has(input[name=pw_mode][value=auto]:checked) .pw-typed { display: none; }
