@@ -333,9 +333,8 @@ $staffSign = function (string $cls) use ($myIn): void { ?>
                             <?php foreach ($apSections as $apSection => $apItems): ?>
                                 <?php if ($apSection !== ''): ?><h3><?= e($apSection) ?></h3><?php endif; ?>
                                 <?php foreach ($apItems as [$apRoute, $apLabel, $apDesc]): ?>
-                                <a href="<?= e(url($apRoute)) ?>"<?= $apRoute === $apLink && $apGroup === $apModule ? ' aria-current="page"' : '' ?>>
+                                <a href="<?= e(url($apRoute)) ?>"<?= $apDesc !== '' ? ' title="' . e($apDesc) . '"' : '' ?><?= $apRoute === $apLink && $apGroup === $apModule ? ' aria-current="page"' : '' ?>>
                                     <strong><?= e($apLabel) ?></strong>
-                                    <?php if ($apDesc !== ''): ?><span><?= e($apDesc) ?></span><?php endif; ?>
                                 </a>
                                 <?php endforeach; ?>
                             <?php endforeach; ?>
