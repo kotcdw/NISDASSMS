@@ -1411,7 +1411,7 @@ a.an-kpi:hover { text-decoration: none; border-color: #b9c5e8; border-top-color:
 
 @keyframes finIn { from { opacity: 0; transform: translateY(-4px); } }
 /* Shared Finance navigation beside every Finance page */
-.finance-module-layout { display: grid; grid-template-columns: minmax(220px, 280px) minmax(0, 1fr); gap: 1rem; align-items: start; }
+.finance-module-layout { display: grid; grid-template-columns: minmax(210px, 250px) minmax(0, 1fr); gap: 1rem; align-items: start; }
 .finance-overview-sidebar { padding: .5rem; }
 .finance-overview-group { border-bottom: 1px solid var(--line); }
 .finance-overview-group:last-child { border-bottom: 0; }
@@ -1675,3 +1675,30 @@ form:has(input[name=pw_mode][value=auto]:checked) .pw-typed { display: none; }
 .pick-row:last-child { border-bottom: 0; }
 .pick-name { display: flex; flex-direction: column; min-width: 0; }
 .pick-actions { display: flex; flex-wrap: wrap; gap: .4rem; }
+
+/* Lists fit the page (9 Nov 2026): column headings and longer text wrap onto two lines instead of pushing the
+   table sideways; the first column (codes, names), amounts, dates, badges and buttons stay on one line */
+.xgrid thead th, .xgrid thead th .xg-sort, th { white-space: normal; }
+.xgrid thead th .xg-sort { text-align: left; line-height: 1.25; }
+@media (min-width: 761px) { .xgrid td, .table-wrap td { min-width: 6rem; } }
+.xgrid td, .table-wrap td { white-space: normal; }
+.xgrid td { padding-left: .7rem; padding-right: .7rem; }
+.xgrid td.num, td.num, .xgrid td[data-s], td .btn, td .badge, td input, td select,
+.xgrid td.xg-n + td, .xgrid tr > td:first-child:not(.xg-n), .table-wrap tr > td:first-child { white-space: nowrap; }
+.xgrid td.num, td.num, .xgrid td[data-s], .xgrid td.xg-n, .xgrid td.xg-act, .table-wrap td:has(> input[type=checkbox]:only-child), .xgrid td:has(> input[type=checkbox]:only-child) { min-width: 0; }
+
+/* "‹ Hide menu" on computers: the page gets the full width; "Show … menu" brings the panel back (9 Nov 2026) */
+.app-panel-hide { display: block; width: 100%; margin: 0 0 .25rem; padding: .45rem .65rem; border: 0; border-radius: 8px; background: none; color: var(--muted); font: inherit; font-size: .825rem; font-weight: 600; text-align: left; cursor: pointer; }
+.app-panel-hide:hover { background: var(--wash); color: var(--ink); }
+.app-panel-show { display: none; }
+@media (min-width: 1100.02px) {
+    .ap-hidden .app-panel-layout { grid-template-columns: minmax(0, 1fr); }
+    .ap-hidden .app-panel { display: none; }
+    .ap-hidden .app-panel-show { display: inline-flex; align-items: center; gap: .45rem; margin-bottom: .75rem; }
+    .ap-hidden .app-panel-show svg { width: 18px; height: 18px; }
+}
+@media (max-width: 1100px) { .app-panel-hide { display: none; } }
+.nw { white-space: nowrap; }
+
+/* Closed drop-down menus take no space (a hidden pop-up could widen phone pages) */
+details.menu-btn:not([open]) > div, details.profile-menu:not([open]) > div { display: none; }

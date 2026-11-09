@@ -32,6 +32,8 @@ final class FinanceMenu
             'Money in & out' => [
                 ['finance', 'Cash book', 'Accounts and their balances', 'finance.view'],
                 ['finance/transactions', 'All entries', 'Every payment in and out, newest first', 'finance.view'],
+                ['finance/cashbook', 'Account entries', 'One account, entry by entry, with its running balance', 'finance.view'],
+                ['finance/statement', 'Money in & out by category', 'Totals for each category over a period', 'finance.view'],
                 ['fees/daily', 'Daily cash', "Today's counter: cash, cheques, MoMo", 'fees.view'],
                 ['petty-cash', 'Petty cash', 'Small spending with receipts', 'finance.view'],
                 ['fees/refunds', 'Refunds & credit notes', 'Overpayments and adjustments', 'fees.view'],
@@ -42,7 +44,7 @@ final class FinanceMenu
             ],
             'Purchasing' => [
                 ['requisitions', 'Requests', 'Requests to spend money and their approval', 'requisitions.create'],
-                ['purchasing', 'Orders', 'Purchase orders to suppliers', 'finance.view|purchasing.order'],
+                ['purchasing', 'Orders', 'Purchase orders to suppliers', 'finance.view|purchasing.order|purchasing.receive'],
                 ['purchasing/received', 'Goods received', 'What arrived against each order', 'finance.view|purchasing.receive'],
                 ['suppliers', 'Bills to pay', 'Supplier bills waiting for payment', 'finance.view'],
                 ['suppliers/list', 'Suppliers', 'Supplier details and statements', 'finance.view'],
@@ -59,9 +61,16 @@ final class FinanceMenu
         'Reports' => [
             '' => [
                 ['finance/reports', 'Reports studio', 'Balance sheet, income & spending, cash flow, trial balance', 'finance.view'],
-                ['ledger', 'Ledger', 'Chart of accounts and double entry', 'finance.view'],
                 ['fixed-assets', 'Fixed assets', 'Buses, buildings, computers and depreciation', 'finance.view'],
                 ['finance/close', 'Month-end', 'Close the month; board pack', 'finance.view'],
+            ],
+            'The books (ledger)' => [
+                ['ledger', 'Summary', 'Chart of accounts and double entry', 'finance.view'],
+                ['ledger/accounts', 'Accounts', 'Every ledger account and its balance', 'finance.view'],
+                ['ledger/journal', 'Every entry', 'All double entries, newest first', 'finance.view'],
+                ['ledger/trial-balance', 'Trial balance', 'Debits and credits side by side', 'finance.view'],
+                ['ledger/balance-sheet', 'Balance sheet', 'What the school owns and owes', 'finance.view'],
+                ['ledger/journals', 'Corrections (manual journals)', 'Correcting entries and their approval', 'finance.view'],
             ],
         ],
     ];

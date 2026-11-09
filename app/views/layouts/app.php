@@ -327,8 +327,10 @@ $staffSign = function (string $cls) use ($myIn): void { ?>
             <?= $apHead ?>
             <input type="checkbox" id="app-panel-check" class="app-panel-check">
             <label for="app-panel-check" class="btn app-panel-open"><?= Icons::svg('apps') ?><?= e($appName) ?> menu</label>
+            <button type="button" class="btn app-panel-show" data-app-panel-toggle><?= Icons::svg('apps') ?>Show <?= e($appName) ?> menu</button>
             <div class="finance-module-layout app-panel-layout">
                 <aside class="card finance-overview-sidebar app-panel" aria-label="<?= e($appName) ?> pages">
+                    <button type="button" class="app-panel-hide" data-app-panel-toggle title="Hide this menu to give the page the full width">‹ Hide menu</button>
                     <?php foreach ($appPanel as $apGroup => $apSections): ?>
                     <details class="finance-overview-group"<?= $apGroup === $apModule || count($appPanel) === 1 ? ' open' : '' ?>>
                         <summary><?= e($apGroup) ?> <span>▾</span></summary>
